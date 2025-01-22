@@ -1,0 +1,25 @@
+steps:
+- id: compile
+  name: maven:3.3-jdk-8
+  entrypoint: mvn
+  args:
+  - '-c'
+  - |
+    compile
+
+
+- id: Build
+  name: maven:3.3-jdk-8
+  entrypoint: mvn
+  args:
+  - '-c'
+  - |
+    package -DskipTests=true
+
+- id: Docker Build
+  name: 'gcr.io/cloud-builders/docker'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    docker build -t Just_for_testing:${SHORT_SHA} .
