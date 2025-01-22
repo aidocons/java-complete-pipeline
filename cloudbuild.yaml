@@ -22,7 +22,7 @@ steps:
   args:
   - '-c'
   - |
-    docker build -t Just_for_testing:${SHORT_SHA} .
+    docker build -t just_for_testing:${SHORT_SHA} .
 
 options:
   logging: CLOUD_LOGGING_ONLY
