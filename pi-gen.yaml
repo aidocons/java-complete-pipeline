@@ -1,0 +1,23 @@
+type: cloudbuild
+steps:
+- id: mvn-compile
+
+- id: mvn-Build
+  placeholders:
+    flags: -DskipTests=true
+
+- id: sonarqube-analyse
+  placeholders:
+    projectKey: shoping-cart
+  plugin:
+  - type: sonarqube
+    database: postgres
+
+- id: Docker-build-push-artifact-registry
+  placeholders:
+    project-name: shoping-cart
+    artifact-repo-name: pi-gen-testing
+  plugin:
+  - type: artifact-registry
+    region: europe-west1
+    artifact-repo-name: pi-gen-testing
