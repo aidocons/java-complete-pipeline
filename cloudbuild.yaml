@@ -1,38 +1,39 @@
 steps:
-- id: compile
+- id: mvn-compile
   name: maven:3.3-jdk-8
   entrypoint: sh
   args:
-  - '-c'
+  - -c
   - |
     mvn compile
-
-
-- id: Build
+- id: mvn-Build
   name: maven:3.3-jdk-8
   entrypoint: sh
   args:
-  - '-c'
+  - -c
   - |
     mvn package -DskipTests=true
-
-# - id: sonar-analysis
-#   name: maven:3.9.9-amazoncorretto-17
-#   entrypoint: sh
-#   args:
-#   - '-c'
-#   - |
-#     mvn sonar:sonar \
-#     -Dsonar.projectKey=your_project_key \
-#     -Dsonar.host.url=https://e6d5-102-159-9-76.ngrok-free.app \
-#     -Dsonar.login=squ_195add6ef78c7b220ff262619cf295a153138649
-
-- id: Docker Build
-  name: 'gcr.io/cloud-builders/docker'
-  entrypoint: 'bash'
+- id: Docker-build-push-artifact-registry
+  name: gcr.io/cloud-builders/docker
+  entrypoint: bash
   args:
-  - '-c'
+  - -c
   - |
-    docker build -t just_for_testing:${SHORT_SHA} .
+    docker build -t europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest .
+    docker push europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest
+- id: Cloudrun-artifact-registry
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: sh
+  args:
+  - -c
+  - |-
+    echo "***************************"
+    echo europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest
+    echo "***************************"
+
+    gcloud run deploy java-test \
+    --region=europe-west1 \
+    --image=europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest
+    --set-secrets=REDIS_HOST=REDIS_HOST_DEV:latest
 options:
   logging: CLOUD_LOGGING_ONLY
