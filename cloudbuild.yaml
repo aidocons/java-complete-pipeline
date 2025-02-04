@@ -33,7 +33,7 @@ steps:
 
     gcloud run deploy java-test \
     --region=europe-west1 \
-    --image=europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest
+    --image=europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest \
     --set-secrets=REDIS_HOST=REDIS_HOST_DEV:latest
 options:
   logging: CLOUD_LOGGING_ONLY
