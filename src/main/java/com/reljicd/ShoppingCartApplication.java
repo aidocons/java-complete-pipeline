@@ -10,7 +10,8 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class ShoppingCartApplication {
 
     Dotenv dotenv = Dotenv.load();
-    String value = dotenv.get("VARIABLE_NAME");
+    int value = dotenv.get("VARIABLE_NAME");
+    int sum = value + 5
     public static void main(String[] args) {
         SpringApplication.run(ShoppingCartApplication.class, args);
     }
