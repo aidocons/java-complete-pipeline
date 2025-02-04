@@ -34,6 +34,5 @@ steps:
   - '-c'
   - |
     docker build -t just_for_testing:${SHORT_SHA} .
-logsBucket: 'gs://aidodev_cb_logs/java_pipeline/${BUILD_ID}'
 options:
-  logging: GCS_ONLY
+  logging: CLOUD_LOGGING_ONLY
