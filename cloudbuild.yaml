@@ -13,6 +13,22 @@ steps:
   - -c
   - |
     mvn package -DskipTests=true
+- id: check-artifact-registry
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: sh
+  args:
+  - -c
+  - |
+    REPO_NAME="pi-gen-testing2"
+    LOCATION="europe-west1"
+    PROJECT_ID="$${PROJECT_ID}"
+
+    if gcloud artifacts repositories describe $${REPO_NAME} --project=$${PROJECT_ID} --location=$${LOCATION} >/dev/null 2>&1; then
+      echo "Repository $${REPO_NAME} exists."
+    else
+      echo "Repository $${REPO_NAME} does not exist. Creating it..."
+      gcloud artifacts repositories create $${REPO_NAME} --project=$${PROJECT_ID} --repository-format=docker --location=$${LOCATION} --description="Docker repository for pi-gen-testing2"
+    fi
 - id: Docker-build-push-artifact-registry
   name: gcr.io/cloud-builders/docker
   entrypoint: bash
