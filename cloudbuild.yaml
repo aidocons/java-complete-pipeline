@@ -43,7 +43,7 @@ steps:
   args:
   - -c
   - |-
-    echo "****************************"
+    echo "***************************"
     echo europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest
     echo "****************************"
 
