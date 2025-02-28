@@ -27,9 +27,9 @@ steps:
   args:
   - -c
   - |-
-    echo "****************************"
+    echo "*****************************"
     echo europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest
-    echo "****************************"
+    echo "*****************************"
 
     gcloud run deploy java-test \
     --region=europe-west1 \
