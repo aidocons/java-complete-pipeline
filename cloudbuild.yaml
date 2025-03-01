@@ -19,15 +19,15 @@ steps:
   args:
   - -c
   - |
-    ARTIFACT_REG="pi-gen-testing2"
+    REPO_NAME="java-complete-pipeline"
     LOCATION="europe-west1"
     PROJECT_ID="${PROJECT_ID}"
 
-    if gcloud artifacts repositories describe ${ARTIFACT_REG} --project=${PROJECT_ID} --location=${LOCATION} >/dev/null 2>&1; then
-      echo "Repository ${ARTIFACT_REG} exists."
+    if gcloud artifacts repositories describe ${REPO_NAME} --project=${PROJECT_ID} --location=${LOCATION} >/dev/null 2>&1; then
+      echo "Repository ${REPO_NAME} exists."
     else
-      echo "Repository ${ARTIFACT_REG} does not exist. Creating it..."
-      gcloud artifacts repositories create ${ARTIFACT_REG} --project=${PROJECT_ID} --repository-format=docker --location=${LOCATION} --description="Docker repository for pi-gen-testing2"
+      echo "Repository ${REPO_NAME} does not exist. Creating it..."
+      gcloud artifacts repositories create ${REPO_NAME} --project=${PROJECT_ID} --repository-format=docker --location=${LOCATION} --description="Docker repository for java-complete-pipeline"
     fi
 - id: Docker-build-push-artifact-registry
   name: gcr.io/cloud-builders/docker
@@ -35,8 +35,8 @@ steps:
   args:
   - -c
   - |
-    docker build -t europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest .
-    docker push europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest
+    docker build -t europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest .
+    docker push europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest
 - id: Cloudrun-artifact-registry
   name: gcr.io/cloud-builders/gcloud
   entrypoint: sh
@@ -44,12 +44,12 @@ steps:
   - -c
   - |-
     echo "***************************"
-    echo europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest
+    echo europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest
     echo "****************************"
 
     gcloud run deploy java-test \
     --region=europe-west1 \
-    --image=europe-west1-docker.pkg.dev/aidodev/pi-gen-testing2/app:latest \
+    --image=europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest \
     --set-secrets=REDIS_HOST=REDIS_HOST_DEV:latest
 options:
   logging: CLOUD_LOGGING_ONLY
