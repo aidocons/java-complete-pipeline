@@ -50,6 +50,6 @@ steps:
     gcloud run deploy java-test \
     --region=europe-west1 \
     --image=europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest \
-    --set-secrets=REDIS_HOST=REDIS_HOST_DEV:latest
+    --set-secrets=OPENAI_KEY=OPEN_AI_KEY:latest
 options:
   logging: CLOUD_LOGGING_ONLY
