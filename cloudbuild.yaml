@@ -37,19 +37,19 @@ steps:
   - |
     docker build -t europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest .
     docker push europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest
-- id: Cloudrun-artifact-registry
-  name: gcr.io/cloud-builders/gcloud
-  entrypoint: sh
-  args:
-  - -c
-  - |-
-    echo "***************************"
-    echo europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest
-    echo "****************************"
+# - id: Cloudrun-artifact-registry
+  # name: gcr.io/cloud-builders/gcloud
+  # entrypoint: sh
+  # args:
+  # - -c
+  # - |-
+  #   echo "***************************"
+  #   echo europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest
+  #   echo "****************************"
 
-    gcloud run deploy java-test \
-    --region=europe-west1 \
-    --image=europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest \
-    --set-secrets=OPENAI_KEY=OPEN_AI_KEY:latest
+  #   gcloud run deploy java-test \
+  #   --region=europe-west1 \
+  #   --image=europe-west1-docker.pkg.dev/aidodev/java-complete-pipeline/app:latest \
+  #   --set-secrets=OPENAI_KEY=OPEN_AI_KEY:latest
 options:
   logging: CLOUD_LOGGING_ONLY
