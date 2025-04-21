@@ -5,7 +5,7 @@ steps:
   args:
   - -c
   - |
-    mvn compile
+    mvn compiled
 - id: mvn-Build
   name: maven:3.3-jdk-8
   entrypoint: sh
